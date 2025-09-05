@@ -1,0 +1,30 @@
+# Nombre para que identifiques tu workflow
+name: Iniciar Mi Laboratorio Linux
+
+# Esto permite que lo inicies manualmente desde la web de GitHub
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    # Le decimos a GitHub que use una máquina con la última versión de Ubuntu Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- PASO 1: Descargar tus archivos ---
+      # Clona el repositorio para que todos tus archivos estén en la VPS.
+      - name: Descargar mis archivos de plantilla
+        uses: actions/checkout@v4
+
+      # --- PASO 2: Instalar tus herramientas ---
+      # Aquí puedes añadir todos los programas que quieras tener siempre.
+      # Edita la línea de 'install' según tus necesidades.
+      - name: Instalar herramientas base (Python, htop, neofetch)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 htop neofetch
+
+      # --- PASO 3: Iniciar la conexión ---
+      # Inicia la sesión SSH para que puedas conectarte desde Termux.
+      - name: Iniciar sesión SSH con tmate
+        uses: mxschmitt/action-tmate@v3
