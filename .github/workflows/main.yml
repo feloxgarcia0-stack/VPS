@@ -1,4 +1,4 @@
-name: Mi Laboratorio Linux (Conexión Directa)
+name: Mi Laboratorio Linux (Terminal Limpia)
 
 on:
   workflow_dispatch:
@@ -7,18 +7,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # --- PASO 1: Descarga tus archivos de plantilla ---
       - name: Descargar mis archivos
         uses: actions/checkout@v4
 
-      # --- PASO 2: Instala tus herramientas ---
-      - name: Instalar Python y otras herramientas
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 htop neofetch
+      - name: Instalar herramientas
+        run: sudo apt-get install -y python3
 
-      # --- PASO 3: Inicia la conexión SIN CLAVES ---
-      - name: Iniciar sesión SSH con tmate (Modo Abierto)
+      # ESTE ES EL PASO QUE TE SOLUCIONA LA VIDA
+      - name: Ocultar la barra verde de tmate
+        run: echo "set -g status off" >> ~/.tmate.conf
+
+      - name: Iniciar sesión SSH con tmate
         uses: mxschmitt/action-tmate@v3
         with:
           limit-access-to-actor: false
