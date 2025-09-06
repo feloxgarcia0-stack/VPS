@@ -14,22 +14,19 @@ jobs:
       # 2. Instala y prepara el servidor SSH
       - name: Configurar Servidor SSH
         run: |
-          # Instala el servidor
           sudo apt-get update && sudo apt-get install -y openssh-server
-          # Crea un usuario llamado 'runner' con contraseña 'runner'
           sudo useradd -m runner
           echo "runner:runner" | sudo chpasswd
           sudo usermod -aG sudo runner
-          # Inicia el servicio SSH
           sudo service ssh start
 
-      # 3. Configura y lanza el túnel Ngrok con TU TOKEN
+      # 3. Configura y lanza el túnel Ngrok (¡CON LA LÍNEA CORREGIDA!)
       - name: Iniciar Túnel Ngrok
-        uses: ChristianLempa/ngrok-action@v2.0.0
+        uses: christianlempa/ngrok-action@v2
         with:
-          port: 22 # El puerto estándar de SSH
+          port: 22
           authtoken: 32J94PqTyY3gqdd30p1zfcXqLDp_7dEgKrE4n5mgeAC2pjA4z
 
-      # 4. Mantiene la VPS viva durante casi 6 horas
+      # 4. Mantiene la VPS viva
       - name: Mantener viva la conexión
         run: sleep 21000
